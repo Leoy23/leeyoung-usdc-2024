@@ -19,32 +19,31 @@
  * @returns {JSON} - Search results.
  * */
 function findSearchTermInBooks(searchTerm, scannedTextObj) {
+  if (!searchTerm || !scannedTextObj) {
+    return {
+      SearchTerm: searchTerm,
+      Results: [],
+    };
+  }
+
   const bookContentResults = scannedTextObj.reduce((acc, bookInfo) => {
     const filterBooksByQuery = bookInfo.Content.filter((bookContent) =>
       bookContent.Text.includes(searchTerm)
     );
-    if (filterBooksByQuery) {
-      filterBooksByQuery.forEach((detail) => {
-        acc.push({
-          ISBN: bookInfo.ISBN,
-          Page: detail.Page,
-          Line: detail.Line,
-        });
+    filterBooksByQuery.forEach((locatedBook) => {
+      acc.push({
+        ISBN: bookInfo.ISBN,
+        Page: locatedBook?.Page | undefined,
+        Line: locatedBook?.Line | undefined,
       });
-    }
+    });
     return acc;
   }, []);
 
-  var result = {
+  return {
     SearchTerm: searchTerm,
-    Results: [],
+    Results: bookContentResults,
   };
-
-  bookContentResults
-    ? bookContentResults.forEach((book) => result.Results.push(book))
-    : null;
-
-  return result;
 }
 
 /** Example input object. */
@@ -127,6 +126,22 @@ const journeyOutStars = {
   ],
 };
 
+const journeyOutStars2 = {
+  SearchTerm: "The",
+  Results: [
+    {
+      ISBN: "123456789012",
+      Page: 1,
+      Line: 5,
+    },
+  ],
+};
+
+const journeyOutStars3 = {
+  SearchTerm: "camry",
+  Results: [],
+};
+
 const secondOutputTest = {
   SearchTerm: "foster",
   Results: [],
@@ -168,7 +183,7 @@ if (test2result.Results.length == 1) {
   console.log("Received:", test2result.Results.length);
 }
 
-/** We can check if another given input, returns the right output. (Can create more mock data to account for different search queries*/
+/** We can check if another given input returns another known output.*/
 const test3result = findSearchTermInBooks("akin", journeyThroughStars);
 if (JSON.stringify(journeyOutStars) === JSON.stringify(test3result)) {
   console.log("PASS: Test 3");
@@ -178,9 +193,42 @@ if (JSON.stringify(journeyOutStars) === JSON.stringify(test3result)) {
   console.log("Received:", test3result);
 }
 
-/** We could choose to check if the correct result is displayed given case sensitive inputs. */
+/** We can check that given another input, we get the right number of results. */
+const test4result = findSearchTermInBooks("akin", journeyThroughStars);
+if (test4result.Results.length == 2) {
+  console.log("PASS: Test 4");
+} else {
+  console.log("FAIL: Test 4");
+  console.log("Expected:", twentyLeaguesOut.Results.length);
+  console.log("Received:", test4result.Results.length);
+}
 
-/* sad paths */
-/** We can check if the result does not exist or returns undefined. */
-/** We could check if an error displays if results are undefined. */
-/** We could choose to check if the incorrect result is displayed given case sensitive inputs. */
+/** We can check if there are no matches found, our output returns as an empty array. */
+const test5result = findSearchTermInBooks("camry", journeyThroughStars);
+if (test5result.Results.length === 0) {
+  console.log("PASS: Test 5");
+} else {
+  console.log("FAIL: Test 5");
+  console.log("Expected:", journeyOutStars3);
+  console.log("Received:", test5result);
+}
+
+/** We can check that given a case sensitive input, we get a known output. */
+const test6result = findSearchTermInBooks("The", journeyThroughStars);
+if (JSON.stringify(test6result) === JSON.stringify(journeyOutStars2)) {
+  console.log("PASS: Test 6");
+} else {
+  console.log("FAIL: Test 6");
+  console.log("Expected:", journeyOutStars2);
+  console.log("Received:", test6result);
+}
+
+/** We can check if our scannedTextObj is empty, the output will return undefined. */
+
+/** We can check if our input includes special characters, the output will include those characters. */
+
+/** We can check if given an input, the output will include the search term as part of a word. */
+
+/** We can check if given a larger scannedTextObj dataset, the output will return the correct number of results */
+
+/** We can check if given a scannedTextObj with no scanned text, the output will return a results object with only the searchTerm and an empty Results array */
