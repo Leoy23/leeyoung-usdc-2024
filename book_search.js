@@ -356,7 +356,7 @@ if (test4result.Results.length == 2) {
   console.log("Received:", test4result.Results.length);
 }
 
-/** We can check if there are no matches found, our output returns as an empty array. */
+/** We can check if there are no matches found, our function returns no matches (empty Results array). */
 const test5result = findSearchTermInBooks("space", journeyThroughStars);
 if (!test5result.Results.length) {
   console.log("PASS: Test 5");
@@ -369,7 +369,7 @@ if (!test5result.Results.length) {
   console.log("Received:", test5result.Results.length);
 }
 
-/** Given a case sensitive input, we get a known output. */
+/** Given a case sensitive input, our function returns a known output. */
 const test6result = findSearchTermInBooks("The", journeyThroughStars);
 if (JSON.stringify(test6result) === JSON.stringify(caseSensitiveObj)) {
   console.log("PASS: Test 6");
@@ -379,7 +379,7 @@ if (JSON.stringify(test6result) === JSON.stringify(caseSensitiveObj)) {
   console.log("Received:", test6result);
 }
 
-/** If our input includes special characters, we get a known output including those characters.  */
+/** If our input includes special characters, our function returns matches with specified characters.  */
 const test7result = findSearchTermInBooks("@special!", journeyThroughStars);
 if (JSON.stringify(test7result) === JSON.stringify(specialCharacterObj)) {
   console.log("PASS: Test 7");
@@ -408,7 +408,7 @@ if (JSON.stringify(test9result) === JSON.stringify(undefinedScannedTextObj)) {
   console.log("Received:", test9result);
 }
 
-const test10result = findSearchTermInBooks(undefined, undefined);
+const test10result = findSearchTermInBooks(undefined, null);
 if (JSON.stringify(test10result) === JSON.stringify(undefinedOrNullObj)) {
   console.log("PASS: Test 10");
 } else {
