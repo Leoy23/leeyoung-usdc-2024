@@ -21,8 +21,8 @@
 function findSearchTermInBooks(searchTerm, scannedTextObj) {
   if (!searchTerm || !scannedTextObj) {
     return {
-      SearchTerm: searchTerm ? searchTerm : "", // error handling => "please input term to search!" (front end dev would be able to create additional functionality to configure proper error handling if creating additional functionality)
-      Results: [], // error handling => "There are no results for "space". Please try again."
+      SearchTerm: searchTerm ? searchTerm : "",
+      Results: [],
     };
   }
 
@@ -336,7 +336,7 @@ if (test2result.Results.length == 1) {
   console.log("Received:", test2result.Results.length);
 }
 
-/** We can check if another given input returns another known output.*/
+/** We can check if another given input returns another known output. */
 const test3result = findSearchTermInBooks("akin", journeyThroughStars);
 if (JSON.stringify(secondSearchQueryObj) === JSON.stringify(test3result)) {
   console.log("PASS: Test 3");
@@ -389,7 +389,7 @@ if (JSON.stringify(test7result) === JSON.stringify(specialCharacterObj)) {
   console.log("Received:", test7result);
 }
 
-/** We can run multiple test cases to check if given any null or undefined inputs, the function will return the search term and no results. */
+/** We can run multiple test cases to check if given any null or undefined inputs, our function will return the search term and no results. */
 const test8result = findSearchTermInBooks(null, journeyThroughStars);
 if (JSON.stringify(test8result) === JSON.stringify(undefinedOrNullObj)) {
   console.log("PASS: Test 8");
@@ -417,7 +417,7 @@ if (JSON.stringify(test10result) === JSON.stringify(undefinedOrNullObj)) {
   console.log("Received:", test10result);
 }
 
-/** We can check if given a longer input that matches text within the scannedTextObj, the function will return any matches that exist. */
+/** We can check if given a longer input that matches text within the scannedTextObj, our function will return any matches that exist. */
 const test11result = findSearchTermInBooks(
   "This text includes",
   journeyThroughStars
@@ -430,7 +430,7 @@ if (JSON.stringify(test11result) === JSON.stringify(multipleWordOutputObj)) {
   console.log("Received:", test11result);
 }
 
-/** We can check if given longer text input that does not match text within the scannedTextObj, the function will return no matches. */
+/** We can check if given longer text input that does not match text within the scannedTextObj, our function will return no matches. */
 const test12result = findSearchTermInBooks(
   "this text includes",
   journeyThroughStars
@@ -439,13 +439,16 @@ if (
   JSON.stringify(test12result) === JSON.stringify(multipleWordOutputErrorObj)
 ) {
   console.log("PASS: Test 12");
+  console.log(
+    `Test 12: There are no results for "${test12result.SearchTerm}". Please try again.`
+  );
 } else {
   console.log("FAIL: Test 12");
   console.log("Expected:", multipleWordOutputErrorObj);
   console.log("Received:", test12result);
 }
 
-/** We can check if given an input, the output will include the search term as part of the text. */
+/** We can check if given an input, our function will include the search term as part of the text. */
 const test13result = findSearchTermInBooks("sta", journeyThroughStars);
 if (JSON.stringify(test13result) == JSON.stringify(partOfWordObj)) {
   console.log("PASS: Test 13");
@@ -455,17 +458,20 @@ if (JSON.stringify(test13result) == JSON.stringify(partOfWordObj)) {
   console.log("Received:", test13result);
 }
 
-/** We can check if given an unknown input, the function will return no matches. */
+/** We can check if given an unknown input, our function will return no matches. */
 const test14result = findSearchTermInBooks("cra", journeyThroughStars);
 if (JSON.stringify(test14result) == JSON.stringify(partOfWordErrorObj)) {
   console.log("PASS: Test 14");
+  console.log(
+    `Test 14: There are no results for "${test14result.SearchTerm}". Please try again.`
+  );
 } else {
   console.log("FAIL: Test 14");
   console.log("Expected:", partOfWordErrorObj);
   console.log("Received:", test14result);
 }
 
-/** We can check if given a larger scannedTextObj dataset, the function will return a known output. */
+/** We can check if given a larger scannedTextObj dataset, our function will return a known output. */
 const test15result = findSearchTermInBooks("sky", expandedJourneyThroughStars);
 if (JSON.stringify(test15result) == JSON.stringify(largerDataResultsObj)) {
   console.log("PASS: Test 15");
@@ -475,13 +481,16 @@ if (JSON.stringify(test15result) == JSON.stringify(largerDataResultsObj)) {
   console.log("Received:", test15result);
 }
 
-/** We can check if given an unknown input within a larger scannedTextObj dataset, the function will return no matches. */
+/** We can check if given an unknown input within a larger scannedTextObj dataset, our function will return no matches. */
 const test16result = findSearchTermInBooks(
   "skater",
   expandedJourneyThroughStars
 );
 if (JSON.stringify(test16result) === JSON.stringify(largeDataNoResultsObj)) {
   console.log("PASS: Test 16");
+  console.log(
+    `Test 16: There are no results for "${test16result.SearchTerm}". Please try again.`
+  );
 } else {
   console.log("FAIL: Test 16");
   console.log("Expected:", largeDataNoResultsObj);
